@@ -107,7 +107,9 @@ function DigitoVerificacion(Nit:string) : Integer;
 procedure log(Mensaje: String);
 function CrearProducto(_iNumeroCuenta,_iTipoCaptacion,_iDigitoCuenta,_iIdIdentificacion:Integer;_sIdPersona:string):Boolean;
 
-var DBAlias:String;
+var
+    Anho:String;
+    DBAlias:String;
     DBPasabordo: String;
     DBNombre:String;
     DBServer:String;

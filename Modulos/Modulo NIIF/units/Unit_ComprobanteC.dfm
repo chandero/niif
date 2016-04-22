@@ -1449,7 +1449,7 @@ object frmComprobanteC: TfrmComprobanteC
     Left = 510
     Top = 458
     SystemInfo = (
-      'OS: WIN32_NT 5.1.2600 Service Pack 2'
+      'OS: WIN32_NT 5.1.2600 Service Pack 3'
       ''
       'PageSize: 4096'
       'ActiveProcessorMask: $1000'
@@ -2827,9 +2827,7 @@ object frmComprobanteC: TfrmComprobanteC
       
         'LEFT JOIN "gen$agencia" ON ("con$auxiliar".ID_AGENCIA = "gen$age' +
         'ncia".ID_AGENCIA)'
-      
-        'LEFT JOIN CON$PUC ON ("con$auxiliar".CODIGO = CON$PUC.CODIGO' +
-        ')'
+      'LEFT JOIN CON$PUC ON ("con$auxiliar".CODIGO = CON$PUC.CODIGO)'
       
         'LEFT JOIN "gen$empleado" ON ("con$comprobante".ID_EMPLEADO = "ge' +
         'n$empleado".ID_EMPLEADO) '
@@ -3060,7 +3058,7 @@ object frmComprobanteC: TfrmComprobanteC
     Left = 544
     Top = 454
     SystemInfo = (
-      'OS: WIN32_NT 5.1.2600 Service Pack 2'
+      'OS: WIN32_NT 5.1.2600 Service Pack 3'
       ''
       'PageSize: 4096'
       'ActiveProcessorMask: $1000'

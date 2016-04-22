@@ -269,6 +269,7 @@ begin
     host_ocana := ReadString('OFICINAS','AG03','0.0.0.0');
     host_convencion := ReadString('OFICINAS','AG04','0.0.0.0');
     logofondo := ReadString('EMPRESA','logofondo','logo.bmp');
+    Anho := ReadString('EMPRESA','Anho','0000');
 
   finally
     free;
@@ -463,7 +464,7 @@ end;
 
 procedure TfrmMain.FormShow(Sender: TObject);
 begin
-        Self.Caption := 'Módulo Contable - ' + DBserver;
+        Self.Caption := 'Módulo NIIF ' + Anho + ' - ' + DBserver + ':' + DBPath + DBName;
         if SalirMal then
            Self.Close;
 end;

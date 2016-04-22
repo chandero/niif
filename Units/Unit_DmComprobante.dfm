@@ -2,8 +2,8 @@ object DmComprobante: TDmComprobante
   OldCreateOrder = False
   OnCreate = DataModuleCreate
   OnDestroy = DataModuleDestroy
-  Left = 286
-  Top = 143
+  Left = 679
+  Top = 152
   Height = 427
   Width = 309
   object Dscomprobante: TDataSource
@@ -73,7 +73,7 @@ object DmComprobante: TDmComprobante
     Database = dmGeneral.IBDatabase1
     Transaction = dmGeneral.IBTransaction1
     SQL.Strings = (
-      'select * from "con$tipocomprobante"')
+      'select * from CON$TIPOCOMPROBANTE')
     Left = 152
     Top = 192
   end
@@ -113,8 +113,8 @@ object DmComprobante: TDmComprobante
     Transaction = dmGeneral.IBTransaction1
     SQL.Strings = (
       
-        'select * from "con$auxiliar" where "con$auxiliar"."ID_COMPROBANT' +
-        'E" = '#39'00000000000'#39)
+        'select * from CON$AUXILIAR where CON$AUXILIAR."ID_COMPROBANTE" =' +
+        ' '#39'00000000000'#39)
     Left = 148
     Top = 76
   end
@@ -123,8 +123,8 @@ object DmComprobante: TDmComprobante
     Transaction = dmGeneral.IBTransaction1
     SQL.Strings = (
       
-        'select * from "con$comprobante" where "con$comprobante"."ID_COMP' +
-        'ROBANTE" = '#39'00000000000'#39)
+        'select * from CON$COMPROBANTE where "con$comprobante"."ID_COMPRO' +
+        'BANTE" = '#39'00000000000'#39)
     Left = 148
     Top = 20
   end

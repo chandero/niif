@@ -173,4 +173,8 @@ object frmSincronizarPlanCuentasNIIF: TfrmSincronizarPlanCuentasNIIF
     Left = 248
     Top = 8
   end
+  object IBQparalelo: TIBQuery
+    Left = 216
+    Top = 32
+  end
 end

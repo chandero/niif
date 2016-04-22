@@ -489,12 +489,12 @@ begin
         try
          Close;
          sql.Clear;
-         sql.Add('insert into "con$comprobante" ("con$comprobante"."ID_COMPROBANTE",');
-         sql.Add('"con$comprobante"."FECHADIA", "con$comprobante"."TIPO_COMPROBANTE",');
-         sql.Add('"con$comprobante"."ID_AGENCIA", "con$comprobante"."DESCRIPCION",');
-         sql.Add('"con$comprobante"."TOTAL_DEBITO", "con$comprobante"."TOTAL_CREDITO",');
-         sql.Add('"con$comprobante"."ESTADO", "con$comprobante"."IMPRESO",');
-         sql.Add('"con$comprobante"."ANULACION","con$comprobante".ID_EMPLEADO)');
+         sql.Add('insert into CON$COMPROBANTE (CON$COMPROBANTE."ID_COMPROBANTE",');
+         sql.Add('CON$COMPROBANTE."FECHADIA", CON$COMPROBANTE."TIPO_COMPROBANTE",');
+         sql.Add('CON$COMPROBANTE."ID_AGENCIA", CON$COMPROBANTE."DESCRIPCION",');
+         sql.Add('CON$COMPROBANTE."TOTAL_DEBITO", CON$COMPROBANTE."TOTAL_CREDITO",');
+         sql.Add('CON$COMPROBANTE."ESTADO", CON$COMPROBANTE."IMPRESO",');
+         sql.Add('CON$COMPROBANTE."ANULACION",CON$COMPROBANTE.ID_EMPLEADO)');
          sql.Add('values (');
          sql.Add(':"ID_COMPROBANTE", :"FECHADIA", :"TIPO_COMPROBANTE",');
          sql.Add(':"ID_AGENCIA", :"DESCRIPCION", :"TOTAL_DEBITO",');
@@ -514,7 +514,7 @@ begin
          ExecSQL;
 
          SQL.Clear;
-         SQL.Add('insert into "con$auxiliar" values (');
+         SQL.Add('insert into CON$AUXILIAR values (');
          SQL.Add(':"ID_COMPROBANTE",:"ID_AGENCIA",:"FECHA",:"CODIGO",:"DEBITO",');
          SQL.Add(':"CREDITO",:"ID_CUENTA",:"ID_COLOCACION",:"ID_IDENTIFICACION",');
          SQL.Add(':"ID_PERSONA",:"MONTO_RETENCION",:"TASA_RETENCION",:"ESTADOAUX",:"TIPO_COMPROBANTE",:"DESCRIPCION")');
@@ -523,7 +523,7 @@ begin
          begin
             Close;
             SQL.Clear;
-            SQL.Add('insert into "con$auxiliar" values (');
+            SQL.Add('insert into CON$AUXILIAR values (');
             SQL.Add(':"ID_COMPROBANTE",:"ID_AGENCIA",:"FECHA",:"CODIGO",:"DEBITO",');
             SQL.Add(':"CREDITO",:"ID_CUENTA",:"ID_COLOCACION",:"ID_IDENTIFICACION",');
             SQL.Add(':"ID_PERSONA",:"MONTO_RETENCION",:"TASA_RETENCION",:"ESTADOAUX",:"TIPO_COMPROBANTE",:"DESCRIPCION")');
@@ -571,19 +571,19 @@ begin
       with _query do
        try
          sql.Clear;
-         sql.Add('update "con$comprobante" set ');
-         sql.Add('"con$comprobante"."DESCRIPCION" =:"DESCRIPCION",');
-         sql.Add('"con$comprobante"."TOTAL_DEBITO" =:"TOTAL_DEBITO",');
-         sql.Add('"con$comprobante"."TOTAL_CREDITO" =:"TOTAL_CREDITO",');
-         sql.Add('"con$comprobante"."ESTADO" =:"ESTADO",');
-         sql.Add('"con$comprobante"."IMPRESO" =:"IMPRESO",');
-         sql.Add('"con$comprobante"."ANULACION" =:"ANULACION",');
-         sql.Add('"con$comprobante".ID_EMPLEADO = :ID_EMPLEADO,');
-         sql.Add('"con$comprobante".FECHADIA = :FECHADIA');
+         sql.Add('update CON$COMPROBANTE set ');
+         sql.Add('CON$COMPROBANTE."DESCRIPCION" =:"DESCRIPCION",');
+         sql.Add('CON$COMPROBANTE."TOTAL_DEBITO" =:"TOTAL_DEBITO",');
+         sql.Add('CON$COMPROBANTE."TOTAL_CREDITO" =:"TOTAL_CREDITO",');
+         sql.Add('CON$COMPROBANTE."ESTADO" =:"ESTADO",');
+         sql.Add('CON$COMPROBANTE."IMPRESO" =:"IMPRESO",');
+         sql.Add('CON$COMPROBANTE."ANULACION" =:"ANULACION",');
+         sql.Add('CON$COMPROBANTE.ID_EMPLEADO = :ID_EMPLEADO,');
+         sql.Add('CON$COMPROBANTE.FECHADIA = :FECHADIA');
          sql.Add(' where ');
-         sql.Add('"con$comprobante"."TIPO_COMPROBANTE" = :"TIPO_COMPROBANTE" and');
-         sql.Add('"con$comprobante"."ID_COMPROBANTE" = :"ID_COMPROBANTE" and');
-         sql.Add('"con$comprobante"."ID_AGENCIA" = :"ID_AGENCIA"');
+         sql.Add('CON$COMPROBANTE."TIPO_COMPROBANTE" = :"TIPO_COMPROBANTE" and');
+         sql.Add('CON$COMPROBANTE."ID_COMPROBANTE" = :"ID_COMPROBANTE" and');
+         sql.Add('CON$COMPROBANTE."ID_AGENCIA" = :"ID_AGENCIA"');
 
          ParamByName('TIPO_COMPROBANTE').AsInteger := dblcbtipo.KeyValue;
          ParamByName('ID_COMPROBANTE').AsString:= vid_comprobante;
@@ -599,17 +599,17 @@ begin
          ExecSQL;
 
          SQL.Clear;
-         SQL.Add('delete from "con$auxiliar" where ');
-         SQL.Add('"con$auxiliar"."TIPO_COMPROBANTE" = :"TIPO_COMPROBANTE" and');
-         SQL.Add('"con$auxiliar"."ID_COMPROBANTE" = :"ID_COMPROBANTE" and');
-         SQL.Add('"con$auxiliar"."ID_AGENCIA" = :"ID_AGENCIA"');
+         SQL.Add('delete from CON$AUXILIAR where ');
+         SQL.Add('CON$AUXILIAR."TIPO_COMPROBANTE" = :"TIPO_COMPROBANTE" and');
+         SQL.Add('CON$AUXILIAR."ID_COMPROBANTE" = :"ID_COMPROBANTE" and');
+         SQL.Add('CON$AUXILIAR."ID_AGENCIA" = :"ID_AGENCIA"');
          ParamByName('TIPO_COMPROBANTE').AsInteger := dblcbtipo.KeyValue;
          ParamByName('ID_COMPROBANTE').AsString:= vid_comprobante;
          ParamByName('ID_AGENCIA').AsInteger := Agencia;
          ExecSQL;
 
          SQL.Clear;
-         SQL.Add('insert into "con$auxiliar" values (');
+         SQL.Add('insert into CON$AUXILIAR values (');
          SQL.Add(':"ID_COMPROBANTE",:"ID_AGENCIA",:"FECHA",:"CODIGO",:"DEBITO",');
          SQL.Add(':"CREDITO",:"ID_CUENTA",:"ID_COLOCACION",:"ID_IDENTIFICACION",');
          SQL.Add(':"ID_PERSONA",:"MONTO_RETENCION",:"TASA_RETENCION",:"ESTADOAUX",:"TIPO_COMPROBANTE",:"DESCRIPCION")');
@@ -947,8 +947,8 @@ begin
         with _query do
             begin
                 SQL.Clear;
-                SQL.Add('select * from "con$comprobante" where "con$comprobante".TIPO_COMPROBANTE = :"TIPO_COMPROBANTE" and "con$comprobante"."ID_COMPROBANTE" =:"ID_COMPROBANTE"');
-                SQL.Add('and "con$comprobante"."ID_AGENCIA" =:"ID_AGENCIA"');
+                SQL.Add('select * from CON$COMPROBANTE where CON$COMPROBANTE.TIPO_COMPROBANTE = :"TIPO_COMPROBANTE" and CON$COMPROBANTE."ID_COMPROBANTE" =:"ID_COMPROBANTE"');
+                SQL.Add('and CON$COMPROBANTE."ID_AGENCIA" =:"ID_AGENCIA"');
                 ParamByName('TIPO_COMPROBANTE').AsInteger := TIPO_COMPROBANTE;
                 paramByName('ID_COMPROBANTE').AsInteger:= ID_COMPROBANTE;
                 ParamByName('ID_AGENCIA').AsInteger:= id_agencia;
@@ -992,7 +992,7 @@ begin
           begin
                 List.Clear;
                 SQL.Clear;
-                SQL.Add('select a.*, p.NOMBRE from "con$auxiliar" a inner join CON$PUC p on ');
+                SQL.Add('select a.*, p.NOMBRE from CON$AUXILIAR a inner join CON$PUC p on ');
                 SQL.Add(' (a.CODIGO = p.CODIGO) ');
                 SQL.Add('where a."TIPO_COMPROBANTE" = :"TIPO_COMPROBANTE" and a."ID_COMPROBANTE" =:"ID_COMPROBANTE"');
                 SQL.Add('and a."ID_AGENCIA" =:"ID_AGENCIA"');
@@ -1106,9 +1106,9 @@ if anulacion <> '' then
   with IBQuery1 do
    begin
     sql.Clear;
-    Sql.Add('update "con$comprobante" set "con$comprobante"."ANULACION" = :"anulacion",');
-    Sql.Add('"con$comprobante"."ESTADO" = :"estado"');
-    sql.Add('where "con$comprobante"."TIPO_COMPROBANTE" = :"TIPO_COMPROBANTE" and "con$comprobante"."ID_COMPROBANTE" = :"ID_COMPROBANTE" and "con$comprobante"."ID_AGENCIA" = :"ID_AGENCIA"');
+    Sql.Add('update CON$COMPROBANTE set CON$COMPROBANTE."ANULACION" = :"anulacion",');
+    Sql.Add('CON$COMPROBANTE."ESTADO" = :"estado"');
+    sql.Add('where CON$COMPROBANTE."TIPO_COMPROBANTE" = :"TIPO_COMPROBANTE" and CON$COMPROBANTE."ID_COMPROBANTE" = :"ID_COMPROBANTE" and CON$COMPROBANTE."ID_AGENCIA" = :"ID_AGENCIA"');
     ParamByName('TIPO_COMPROBANTE').AsInteger := id_tipocomprobante;
     parambyname('ID_COMPROBANTE').AsInteger := id_comprobante;
     parambyname('ID_AGENCIA').AsInteger := Agencia;
@@ -1120,9 +1120,9 @@ if anulacion <> '' then
   with IBQuery2 do
    begin
     sql.Clear;
-    Sql.Add('update "con$auxiliar" set ');
-    Sql.Add('"con$auxiliar"."ESTADOAUX" = :"ESTADOAUX"');
-    sql.Add('where "con$auxiliar"."TIPO_COMPROBANTE" = :"TIPO_COMPROBANTE" and "con$auxiliar"."ID_COMPROBANTE" = :"ID_COMPROBANTE" and "con$auxiliar"."ID_AGENCIA" = :"ID_AGENCIA"');
+    Sql.Add('update CON$AUXILIAR set ');
+    Sql.Add('CON$AUXILIAR."ESTADOAUX" = :"ESTADOAUX"');
+    sql.Add('where CON$AUXILIAR."TIPO_COMPROBANTE" = :"TIPO_COMPROBANTE" and CON$AUXILIAR."ID_COMPROBANTE" = :"ID_COMPROBANTE" and CON$AUXILIAR."ID_AGENCIA" = :"ID_AGENCIA"');
     ParamByName('TIPO_COMPROBANTE').AsInteger := id_tipocomprobante;
     parambyname('ID_COMPROBANTE').AsInteger := id_comprobante;
     parambyname('ID_AGENCIA').AsInteger := agencia;
@@ -1337,12 +1337,12 @@ begin
       with IBQuery2 do
        begin
          sql.Clear;
-         sql.Add('update "con$comprobante" set ');
-         sql.Add('"con$comprobante"."IMPRESO" = :"IMPRESO"');
+         sql.Add('update CON$COMPROBANTE set ');
+         sql.Add('CON$COMPROBANTE."IMPRESO" = :"IMPRESO"');
          sql.Add(' where ');
-         sql.Add('"con$comprobante"."TIPO_COMPROBANTE" = :"TIPO_COMPROBANTE" and');
-         sql.Add('"con$comprobante"."ID_COMPROBANTE" = :"ID_COMPROBANTE" and');
-         sql.Add('"con$comprobante"."ID_AGENCIA" = :"ID_AGENCIA"');
+         sql.Add('CON$COMPROBANTE."TIPO_COMPROBANTE" = :"TIPO_COMPROBANTE" and');
+         sql.Add('CON$COMPROBANTE."ID_COMPROBANTE" = :"ID_COMPROBANTE" and');
+         sql.Add('CON$COMPROBANTE."ID_AGENCIA" = :"ID_AGENCIA"');
 
          ParamByName('TIPO_COMPROBANTE').AsInteger := dblcbtipo.KeyValue;
          ParamByName('ID_COMPROBANTE').AsString:= vid_comprobante;
@@ -1444,9 +1444,9 @@ begin
            IBQsettipocomp.Open;
            IBQsetauxiliar.Open;
            SQL.Clear;
-           SQL.Add('select "con$comprobante".ESTADO, "con$auxiliar".ESTADOAUX from "con$comprobante"');
-           SQL.Add('LEFT JOIN "con$auxiliar" ON ("con$comprobante".TIPO_COMPROBANTE = "con$auxiliar".TIPO_COMPROBANTE and "con$comprobante".ID_COMPROBANTE = "con$auxiliar".ID_COMPROBANTE and "con$comprobante".ID_AGENCIA = "con$auxiliar".ID_AGENCIA)');
-           SQL.Add(' where "con$comprobante".TIPO_COMPROBANTE = :"TIPO_COMPROBANTE" and "con$comprobante".ID_COMPROBANTE = :"ID_COMPROBANTE" AND "con$comprobante".ID_AGENCIA = :"ID_AGENCIA"');
+           SQL.Add('select CON$COMPROBANTE.ESTADO, CON$AUXILIAR.ESTADOAUX from CON$COMPROBANTE');
+           SQL.Add('LEFT JOIN CON$AUXILIAR ON (CON$COMPROBANTE.TIPO_COMPROBANTE = CON$AUXILIAR.TIPO_COMPROBANTE and CON$COMPROBANTE.ID_COMPROBANTE = CON$AUXILIAR.ID_COMPROBANTE and CON$COMPROBANTE.ID_AGENCIA = CON$AUXILIAR.ID_AGENCIA)');
+           SQL.Add(' where CON$COMPROBANTE.TIPO_COMPROBANTE = :"TIPO_COMPROBANTE" and CON$COMPROBANTE.ID_COMPROBANTE = :"ID_COMPROBANTE" AND CON$COMPROBANTE.ID_AGENCIA = :"ID_AGENCIA"');
            ParamByName('TIPO_COMPROBANTE').AsInteger := Tp;
            ParamByName('ID_COMPROBANTE').AsInteger:= Id;
            ParamByName('ID_AGENCIA').AsInteger:= Ag;
@@ -2013,12 +2013,12 @@ begin
        begin
          Close;
          sql.Clear;
-         sql.Add('update "con$comprobante" set ');
-         sql.Add('"con$comprobante"."IMPRESO" = :"IMPRESO"');
+         sql.Add('update CON$COMPROBANTE set ');
+         sql.Add('CON$COMPROBANTE."IMPRESO" = :"IMPRESO"');
          sql.Add(' where ');
-         sql.Add('"con$comprobante"."TIPO_COMPROBANTE = :"TIPO_COMPROBANTE" and');
-         sql.Add('"con$comprobante"."ID_COMPROBANTE" = :"ID_COMPROBANTE" and');
-         sql.Add('"con$comprobante"."ID_AGENCIA" = :"ID_AGENCIA"');
+         sql.Add('CON$COMPROBANTE."TIPO_COMPROBANTE = :"TIPO_COMPROBANTE" and');
+         sql.Add('CON$COMPROBANTE."ID_COMPROBANTE" = :"ID_COMPROBANTE" and');
+         sql.Add('CON$COMPROBANTE."ID_AGENCIA" = :"ID_AGENCIA"');
 
          ParamByName('TIPO_COMPROBANTE').AsInteger := id_tipocomprobante;
          ParamByName('ID_COMPROBANTE').AsInteger := StrToInt(vid_comprobante);
@@ -2141,7 +2141,7 @@ begin
          DateTimeToString(fecha,'yyyyMMddHHmm',now);
          plantillanombre := InputBox('Nombre para la Plantilla','Digite un Nombre Para la Plantilla','Plantilla_'+fecha);
          ibsql.SQL.Clear;
-         ibsql.SQL.Add('insert into "con$plantilla" (PLAN_ID,PLAN_DESCRIPCION) values (');
+         ibsql.SQL.Add('insert into CON$PLANTILLA (PLAN_ID,PLAN_DESCRIPCION) values (');
          ibsql.SQL.Add(':PLAN_ID,:PLAN_DESCRIPCION)');
          ibsql.ParamByName('PLAN_ID').AsInteger := plantillaID;
          ibsql.ParamByName('PLAN_DESCRIPCION').AsString := plantillanombre;
@@ -2151,7 +2151,7 @@ begin
          begin
             ibsql.Close;
             ibsql.SQL.Clear;
-            ibsql.SQL.Add('insert into "con$plantilladetalle" values (');
+            ibsql.SQL.Add('insert into CON$PLANILLADETALLE values (');
             ibsql.SQL.Add(':PLAN_ID,:PLDE_ORDEN,:PLDE_CODIGO,:PLDE_DEBITO,:PLDE_CREDITO, :PLDE_TIPOID, :PLDE_IDPERSONA, :PLDE_DESCRIPCION, :PLDE_MONTO, :PLDE_TASA)');
             ARecord := List.Items[I];
             ibsql.ParamByName('PLAN_ID').AsInteger := plantillaID;
@@ -2271,9 +2271,9 @@ if (estadoc= 'C') and (estadoa= 'C') then
    with IBQuery1 do
    begin
     sql.Clear;
-    Sql.Add('update "con$comprobante" set ');
-    Sql.Add('"con$comprobante"."ESTADO" = :"estado"');
-    sql.Add('where "con$comprobante"."TIPO_COMPROBANTE" = :"TIPO_COMPROBANTE" and "con$comprobante"."ID_COMPROBANTE" = :"ID_COMPROBANTE" and "con$comprobante"."ID_AGENCIA" = :"ID_AGENCIA"');
+    Sql.Add('update CON$COMPROBANTE set ');
+    Sql.Add('CON$COMPROBANTE."ESTADO" = :"estado"');
+    sql.Add('where CON$COMPROBANTE."TIPO_COMPROBANTE" = :"TIPO_COMPROBANTE" and CON$COMPROBANTE."ID_COMPROBANTE" = :"ID_COMPROBANTE" and CON$COMPROBANTE."ID_AGENCIA" = :"ID_AGENCIA"');
     ParamByName('TIPO_COMPROBANTE').AsInteger := id_tipocomprobante;
     parambyname('ID_COMPROBANTE').AsInteger := id_comprobante;
     parambyname('ID_AGENCIA').AsInteger := Agencia;
@@ -2283,9 +2283,9 @@ if (estadoc= 'C') and (estadoa= 'C') then
   with IBQuery2 do
    begin
     sql.Clear;
-    Sql.Add('update "con$auxiliar" set ');
-    Sql.Add('"con$auxiliar"."ESTADOAUX" = :"ESTADOAUX"');
-    sql.Add('where "con$auxiliar"."TIPO_COMPROBANTE" = :"TIPO_COMPROBANTE" and "con$auxiliar"."ID_COMPROBANTE" = :"ID_COMPROBANTE" and "con$auxiliar"."ID_AGENCIA" = :"ID_AGENCIA"');
+    Sql.Add('update CON$AUXILIAR set ');
+    Sql.Add('CON$AUXILIAR."ESTADOAUX" = :"ESTADOAUX"');
+    sql.Add('where CON$AUXILIAR."TIPO_COMPROBANTE" = :"TIPO_COMPROBANTE" and CON$AUXILIAR."ID_COMPROBANTE" = :"ID_COMPROBANTE" and CON$AUXILIAR."ID_AGENCIA" = :"ID_AGENCIA"');
     ParamByName('TIPO_COMPROBANTE').AsInteger := id_tipocomprobante;
     parambyname('ID_COMPROBANTE').AsInteger := id_comprobante;
     parambyname('ID_AGENCIA').AsInteger := agencia;

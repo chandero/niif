@@ -1,8 +1,8 @@
 object frmMantenimientopuc: TfrmMantenimientopuc
   Left = 136
   Top = 50
-  Width = 688
-  Height = 533
+  Width = 692
+  Height = 566
   Caption = 'Plan Unico de Cuentas'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -22,20 +22,20 @@ object frmMantenimientopuc: TfrmMantenimientopuc
     Left = 1
     Top = 0
     Width = 659
-    Height = 481
+    Height = 513
     TabOrder = 0
     object Splitter1: TSplitter
       Left = 218
       Top = 1
       Width = 1
-      Height = 479
+      Height = 511
       Cursor = crHSplit
     end
     object Treepuc: TTreeView
       Left = 1
       Top = 1
       Width = 217
-      Height = 479
+      Height = 511
       Align = alLeft
       Images = ImageList1
       Indent = 19
@@ -50,12 +50,12 @@ object frmMantenimientopuc: TfrmMantenimientopuc
       Left = 219
       Top = 1
       Width = 439
-      Height = 479
+      Height = 511
       Align = alClient
       TabOrder = 1
       object StringGrid: TXStringGrid
         Left = 7
-        Top = 253
+        Top = 285
         Width = 425
         Height = 221
         ColCount = 4
@@ -134,7 +134,7 @@ object frmMantenimientopuc: TfrmMantenimientopuc
         Left = 5
         Top = 0
         Width = 333
-        Height = 249
+        Height = 281
         TabOrder = 0
         object Label7: TLabel
           Left = 11
@@ -473,7 +473,7 @@ object frmMantenimientopuc: TfrmMantenimientopuc
         Left = 341
         Top = 0
         Width = 98
-        Height = 249
+        Height = 281
         BorderWidth = 12
         Color = clOlive
         TabOrder = 2
@@ -870,6 +870,15 @@ object frmMantenimientopuc: TfrmMantenimientopuc
           ModalResult = 1
           ParentFont = False
           TabOrder = 7
+        end
+        object btnValidarMayor: TBitBtn
+          Left = 8
+          Top = 248
+          Width = 81
+          Height = 25
+          Caption = 'Validar Mayor'
+          TabOrder = 8
+          OnClick = btnValidarMayorClick
         end
       end
     end
@@ -1659,7 +1668,7 @@ object frmMantenimientopuc: TfrmMantenimientopuc
       FieldName = 'NOMBRE'
       Origin = 'con$puc.NOMBRE'
       Required = True
-      Size = 100
+      Size = 500
     end
     object QuerypucNATURALEZA: TIBStringField
       FieldName = 'NATURALEZA'

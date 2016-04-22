@@ -1,5 +1,5 @@
 object frmMain: TfrmMain
-  Left = 336
+  Left = 398
   Top = 60
   Width = 691
   Height = 519
@@ -193,6 +193,7 @@ object frmMain: TfrmMain
       object AjusteComprobantes1: TMenuItem
         Tag = 1070202
         Caption = 'Ajuste Comprobantes'
+        Visible = False
         OnClick = AjusteComprobantes1Click
       end
       object N3: TMenuItem
@@ -233,6 +234,7 @@ object frmMain: TfrmMain
       end
       object ProcesosAnuales1: TMenuItem
         Caption = 'Procesos Anuales'
+        Visible = False
         object RevalorizacindeAportes1: TMenuItem
           Caption = 'Revalorizaci'#243'n de Aportes'
           Visible = False
@@ -292,10 +294,12 @@ object frmMain: TfrmMain
       end
       object EstadodeIngresosyGastos1: TMenuItem
         Caption = 'Estado de Ingresos y Gastos'
+        Visible = False
         OnClick = EstadodeIngresosyGastos1Click
       end
       object InformeCajaDiario1: TMenuItem
         Caption = 'Informe Caja Diario'
+        Visible = False
         OnClick = InformeCajaDiario1Click
       end
       object LibrosAuxiliares1: TMenuItem
@@ -352,6 +356,7 @@ object frmMain: TfrmMain
       end
       object LibrosRegistrados1: TMenuItem
         Caption = 'Libros Registrados'
+        Visible = False
         object PaginacindePapel1: TMenuItem
           Caption = '&Paginaci'#243'n de Papel'
           OnClick = PaginacindePapel1Click
@@ -372,6 +377,7 @@ object frmMain: TfrmMain
     end
     object Consultas1: TMenuItem
       Caption = 'Consultas'
+      Visible = False
       object ConsultaExtracto1: TMenuItem
         Caption = 'Consulta Extracto Captaciones'
         Visible = False
@@ -399,6 +405,7 @@ object frmMain: TfrmMain
     end
     object Gestiones1: TMenuItem
       Caption = 'Gestiones'
+      Visible = False
       object ControldeCobro1: TMenuItem
         Caption = 'Control de Cobro'
         Visible = False
@@ -417,6 +424,7 @@ object frmMain: TfrmMain
     end
     object InformesGerenciales1: TMenuItem
       Caption = '&Consultas Gerenciales'
+      Visible = False
       object ConsultadeGerencia1: TMenuItem
         Caption = 'Consulta de Gerencia'
         Visible = False
@@ -457,6 +465,7 @@ object frmMain: TfrmMain
     end
     object Utilidades1: TMenuItem
       Caption = 'Utilidades'
+      Visible = False
       object ClculodeTasas1: TMenuItem
         Caption = 'Calculo de Tasas'
         Visible = False

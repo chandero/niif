@@ -118,7 +118,5 @@ begin
   Application.Initialize;
   Application.Title := 'NIIF';
   Application.CreateForm(TfrmMain, frmMain);
-  Application.CreateForm(TfrmSincronizarPlanCuentasNIIF, frmSincronizarPlanCuentasNIIF);
-  Application.CreateForm(TfrmMigraciondeNotasColgaap, frmMigraciondeNotasColgaap);
   Application.Run;
 end.

@@ -264,6 +264,28 @@ object frmEquivalencias: TfrmEquivalencias
     TitleFont.Height = -11
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'ID_AGENCIA'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'NIIF'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'NOMBRE'
+        Width = 200
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PORCENTAJE'
+        Visible = True
+      end>
   end
   object Panel3: TPanel
     Left = 0
@@ -448,7 +470,7 @@ object frmEquivalencias: TfrmEquivalencias
       FieldName = 'NOMBRE'
       Origin = '"CON$PUC"."NOMBRE"'
       Required = True
-      Size = 80
+      Size = 500
     end
     object IBQparaleloPORCENTAJE: TIBBCDField
       FieldName = 'PORCENTAJE'
