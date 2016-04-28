@@ -111,7 +111,8 @@ uses
   UnitEquivalencia in 'units\UnitEquivalencia.pas' {frmEquivalencias},
   UnitSincronizarPlanCuentasNIIF in '..\..\Units\UnitSincronizarPlanCuentasNIIF.pas' {frmSincronizarPlanCuentasNIIF},
   UnitMigraciondeNotasColgaap in 'units\UnitMigraciondeNotasColgaap.pas' {frmMigraciondeNotasColgaap},
-  UnitBalanceDirectoColgaapNiif in 'units\UnitBalanceDirectoColgaapNiif.pas' {frmBalanceDirectoColgaapNiif};
+  UnitBalanceDirectoColgaapNiif in 'units\UnitBalanceDirectoColgaapNiif.pas' {frmBalanceDirectoColgaapNiif},
+  DataSetToExcel in '\\vboxsrv\SGFT\NIIF\Units\DataSetToExcel.pas';
 
 {$R *.res}
 
@@ -119,6 +120,5 @@ begin
   Application.Initialize;
   Application.Title := 'NIIF';
   Application.CreateForm(TfrmMain, frmMain);
-  Application.CreateForm(TfrmBalanceDirectoColgaapNiif, frmBalanceDirectoColgaapNiif);
   Application.Run;
 end.

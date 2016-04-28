@@ -42,6 +42,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure edCodigoExit(Sender: TObject);
+    procedure CmdBuscarClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -54,6 +55,8 @@ var
 implementation
 
 {$R *.dfm}
+
+uses Unit_Mantenimientopuc;
 
 procedure TfrmEquivalencias.FormCreate(Sender: TObject);
 begin
@@ -69,11 +72,6 @@ begin
         IBQNIIF.Transaction := dmGeneral.IBTransaction1;
         IBQparalelo.Transaction := dmGeneral.IBTransaction1;
 
-        if (IBQOperacion.Transaction.InTransaction) then
-        begin
-             IBQOperacion.Transaction.Commit;
-        end;
-        IBQOperacion.Transaction.StartTransaction;
 end;
 
 procedure TfrmEquivalencias.BtncerrarClick(Sender: TObject);
@@ -90,13 +88,17 @@ begin
 end;
 
 procedure TfrmEquivalencias.BtnGrabarClick(Sender: TObject);
+var Cadena: String;
 begin
+        Cadena := EdCODIGO.Text;
+        while Pos(' ',Cadena) > 0 do
+        Cadena[Pos(' ',Cadena)] := '0';
         IBQOperacion.SQL.Clear;
         IBQOperacion.SQL.Add('INSERT INTO CON$PARALELO (ID_AGENCIA, COLGAAP, NIIF, PORCENTAJE) ');
         IBQOperacion.SQL.Add('VALUES (:ID_AGENCIA, :COLGAAP, :NIIF, :PORCENTAJE) ');
         IBQOperacion.ParamByName('ID_AGENCIA').AsInteger := IBQColgaap.FieldByName('ID_AGENCIA').AsInteger;
         IBQOperacion.ParamByName('COLGAAP').AsString := IBQColgaap.FieldByName('CODIGO').AsString;
-        IBQOperacion.ParamByName('NIIF').AsString := edCodigo.Text;
+        IBQOperacion.ParamByName('NIIF').AsString := Cadena;
         IBQOperacion.ParamByName('PORCENTAJE').AsFloat := edPorcentaje.Value;
         try
           try
@@ -108,6 +110,11 @@ begin
            IBQOperacion.Close;
            IBQOperacion.Transaction.CommitRetaining;
         end;
+        IBQparalelo.Close;
+        IBQparalelo.ParamByName('ID_AGENCIA').AsInteger := IBQColgaap.FieldByName('ID_AGENCIA').AsInteger;
+        IBQparalelo.ParamByName('COLGAAP').AsString := IBQColgaap.FieldByName('CODIGO').AsString;
+        IBQparalelo.Open;
+
 end;
 
 procedure TfrmEquivalencias.BtnRemoverClick(Sender: TObject);
@@ -158,6 +165,21 @@ begin
           end
           else
               edNombre.Text := 'CODIGO NO EXISTE';
+end;
+
+procedure TfrmEquivalencias.CmdBuscarClick(Sender: TObject);
+var
+   frmPUC: TfrmMantenimientopuc;
+begin
+        frmPUC := TfrmMantenimientopuc.Create(self);
+        frmPUC.CodigoSeleccionado := edcodigo.Text;
+        frmPUC.btnSeleccionar.Enabled := true;
+        if ( frmPUC.ShowModal = mrOK ) then
+        begin
+            frmPUC.btnSeleccionar.Enabled := false;
+            edcodigo.Text := frmPUC.CodigoSeleccionado;
+        end;
+
 end;
 
 end.

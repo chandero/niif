@@ -1,8 +1,8 @@
 object frmBalanceDirectoColgaapNiif: TfrmBalanceDirectoColgaapNiif
-  Left = 133
-  Top = 61
-  Width = 1144
-  Height = 551
+  Left = 148
+  Top = 136
+  Width = 1367
+  Height = 538
   Caption = 'Balance Directo COLGAAP -> NIIF'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -17,7 +17,7 @@ object frmBalanceDirectoColgaapNiif: TfrmBalanceDirectoColgaapNiif
   object GroupBox1: TGroupBox
     Left = 0
     Top = 0
-    Width = 1121
+    Width = 1353
     Height = 49
     Caption = 'Par'#225'metros para el Proceso'
     TabOrder = 0
@@ -52,7 +52,7 @@ object frmBalanceDirectoColgaapNiif: TfrmBalanceDirectoColgaapNiif
         'Diciembre')
     end
     object btnCerrar: TBitBtn
-      Left = 1038
+      Left = 1270
       Top = 13
       Width = 75
       Height = 25
@@ -159,24 +159,25 @@ object frmBalanceDirectoColgaapNiif: TfrmBalanceDirectoColgaapNiif
   object GroupBox2: TGroupBox
     Left = 0
     Top = 48
-    Width = 561
+    Width = 521
     Height = 449
     Caption = 'Balance Colgaap'
     TabOrder = 1
     object Panel1: TPanel
       Left = 2
       Top = 414
-      Width = 557
+      Width = 517
       Height = 33
       Align = alBottom
       TabOrder = 0
       object btnAExcel: TBitBtn
         Left = 4
-        Top = 8
+        Top = 5
         Width = 91
         Height = 25
         Caption = 'A Excel'
         TabOrder = 0
+        OnClick = btnAExcelClick
         Glyph.Data = {
           36050000424D3605000000000000360400002800000010000000100000000100
           08000000000000010000320B0000320B00000001000000010000EFA54A00C684
@@ -225,10 +226,16 @@ object frmBalanceDirectoColgaapNiif: TfrmBalanceDirectoColgaapNiif
     object DBGcolgaap: TDBGrid
       Left = 2
       Top = 15
-      Width = 557
+      Width = 517
       Height = 399
       Align = alClient
       DataSource = DScolgaap
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -9
+      Font.Name = 'Arial'
+      Font.Style = []
+      ParentFont = False
       TabOrder = 1
       TitleFont.Charset = DEFAULT_CHARSET
       TitleFont.Color = clWindowText
@@ -256,26 +263,27 @@ object frmBalanceDirectoColgaapNiif: TfrmBalanceDirectoColgaapNiif
     end
   end
   object GroupBox3: TGroupBox
-    Left = 562
+    Left = 837
     Top = 48
-    Width = 559
+    Width = 519
     Height = 449
     Caption = 'Balance Niif'
     TabOrder = 2
     object Panel2: TPanel
       Left = 2
       Top = 414
-      Width = 555
+      Width = 515
       Height = 33
       Align = alBottom
       TabOrder = 0
-      object BitBtn2: TBitBtn
+      object btnAExcelNiif: TBitBtn
         Left = 4
-        Top = 8
+        Top = 5
         Width = 91
         Height = 25
         Caption = 'A Excel'
         TabOrder = 0
+        OnClick = btnAExcelNiifClick
         Glyph.Data = {
           36050000424D3605000000000000360400002800000010000000100000000100
           08000000000000010000320B0000320B00000001000000010000EFA54A00C684
@@ -324,11 +332,64 @@ object frmBalanceDirectoColgaapNiif: TfrmBalanceDirectoColgaapNiif
     object DBGniif: TDBGrid
       Left = 2
       Top = 15
-      Width = 555
+      Width = 515
       Height = 399
       Align = alClient
       DataSource = DSniif
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -9
+      Font.Name = 'Arial'
+      Font.Style = []
+      ParentFont = False
       TabOrder = 1
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -11
+      TitleFont.Name = 'MS Sans Serif'
+      TitleFont.Style = []
+      OnTitleClick = DBGniifTitleClick
+      Columns = <
+        item
+          Expanded = False
+          FieldName = 'CODIGO'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'CUENTA'
+          Width = 300
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'SALDO'
+          Width = 100
+          Visible = True
+        end>
+    end
+  end
+  object GroupBox4: TGroupBox
+    Left = 522
+    Top = 48
+    Width = 315
+    Height = 449
+    Caption = 'Cuentas Sin Paralelo'
+    TabOrder = 3
+    object DBGsinparalelo: TDBGrid
+      Left = 2
+      Top = 15
+      Width = 311
+      Height = 401
+      Align = alClient
+      DataSource = DSsinparalelo
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -9
+      Font.Name = 'Arial'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 0
       TitleFont.Charset = DEFAULT_CHARSET
       TitleFont.Color = clWindowText
       TitleFont.Height = -11
@@ -353,6 +414,66 @@ object frmBalanceDirectoColgaapNiif: TfrmBalanceDirectoColgaapNiif
           Visible = True
         end>
     end
+    object Panel3: TPanel
+      Left = 2
+      Top = 416
+      Width = 311
+      Height = 31
+      Align = alBottom
+      TabOrder = 1
+      object btnAExcelsinParalelo: TBitBtn
+        Left = 6
+        Top = 3
+        Width = 91
+        Height = 25
+        Caption = 'A Excel'
+        TabOrder = 0
+        OnClick = btnAExcelsinParaleloClick
+        Glyph.Data = {
+          36050000424D3605000000000000360400002800000010000000100000000100
+          08000000000000010000320B0000320B00000001000000010000EFA54A00C684
+          6B00BD8C7300CE947300EFB57300FFC67300BD847B00C6947B00B5848400B58C
+          8400CE9C8400EFCE94009C9C9C00C6A59C00EFCE9C00F7D69C00C6ADA500F7D6
+          A500CEB5AD00D6B5AD00C6BDAD00F7D6AD00D6BDB500DEBDB500DEC6B500E7C6
+          B500EFCEB500F7D6B500F7DEB500EFCEBD00F7DEBD00527BC600E7DEC600F7DE
+          C600F7E7C600E7CECE00E7D6CE00F7E7D600FFEFD600DEDEDE00FFEFE700FFF7
+          E700FFF7EF00FFF7F700FFFFF700FF00FF0039A5FF0000F7FF0094FFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF002D2D08080808
+          0808080808080808082D2D2D0D261F1F1C15110E0B0B0B0F082D2D2D0D262F1F
+          1F0C0C0C0C0C0C0E082D2D2D10282E2F1F1F1F150E0E0B0E082D2D2D1029252E
+          302F1F1F150E0E0B082D2D2D121F1F1F1F302F1F1F0C0C0E082D2D2D132E302F
+          2F2F2F2F1F1F1111082D2D2D16312E302F1F1F22211E1B15082D2D2D1631272E
+          302F1F1F0C0C0C1C082D2D2D1731312E302F2F1F1F21211B082D2D2D18313131
+          2E302F2F1F1F2014082D2D2D1931270C0C2E302F2F1F1F09082D2D2D19313131
+          3131312C23020400012D2D2D1D31313131313131240705032D2D2D2D192B2A2A
+          2A2A2A2A23070A2D2D2D2D2D191A1A1A1A19191A16062D2D2D2D}
+      end
+    end
   end
   object CDScolgaap: TClientDataSet
     Active = True
@@ -371,6 +492,14 @@ object frmBalanceDirectoColgaapNiif: TfrmBalanceDirectoColgaapNiif
       item
         Name = 'SALDO'
         DataType = ftCurrency
+      end
+      item
+        Name = 'MOVIMIENTO'
+        DataType = ftInteger
+      end
+      item
+        Name = 'NIVEL'
+        DataType = ftInteger
       end>
     IndexDefs = <
       item
@@ -389,10 +518,12 @@ object frmBalanceDirectoColgaapNiif: TfrmBalanceDirectoColgaapNiif
     Left = 264
     Top = 48
     Data = {
-      720000009619E0BD010000001800000003000000000003000000720006434F44
+      A90000009619E0BD010000001800000005000000000003000000A90006434F44
       49474F0100490000000100055749445448020002001200064355454E54410200
       49000000010005574944544802000200F4010553414C444F0800040000000100
-      07535542545950450200490006004D6F6E6579000000}
+      07535542545950450200490006004D6F6E6579000A4D4F56494D49454E544F04
+      00010000000000054E4956454C040001000000000001000D44454641554C545F
+      4F524445520200820000000000}
     object CDScolgaapCODIGO: TStringField
       FieldName = 'CODIGO'
       Size = 18
@@ -404,6 +535,12 @@ object frmBalanceDirectoColgaapNiif: TfrmBalanceDirectoColgaapNiif
     object CDScolgaapSALDO: TCurrencyField
       FieldName = 'SALDO'
     end
+    object CDScolgaapMOVIMIENTO: TIntegerField
+      FieldName = 'MOVIMIENTO'
+    end
+    object CDScolgaapNIVEL: TIntegerField
+      FieldName = 'NIVEL'
+    end
   end
   object DScolgaap: TDataSource
     DataSet = CDScolgaap
@@ -412,20 +549,51 @@ object frmBalanceDirectoColgaapNiif: TfrmBalanceDirectoColgaapNiif
   end
   object DSniif: TDataSource
     DataSet = CDSniif
-    Left = 560
-    Top = 56
+    Left = 896
+    Top = 104
   end
   object CDSniif: TClientDataSet
     Active = True
     Aggregates = <>
+    FieldDefs = <
+      item
+        Name = 'CODIGO'
+        DataType = ftString
+        Size = 18
+      end
+      item
+        Name = 'CUENTA'
+        DataType = ftString
+        Size = 500
+      end
+      item
+        Name = 'SALDO'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'NIVEL'
+        DataType = ftInteger
+      end
+      item
+        Name = 'MOVIMIENTO'
+        DataType = ftInteger
+      end>
+    IndexDefs = <
+      item
+        Name = 'IndexCodigo'
+        Fields = 'CODIGO'
+      end>
+    IndexName = 'IndexCodigo'
     Params = <>
-    Left = 584
-    Top = 56
+    StoreDefs = True
+    Left = 920
+    Top = 104
     Data = {
-      720000009619E0BD010000001800000003000000000003000000720006434F44
+      930000009619E0BD010000001800000005000000000003000000930006434F44
       49474F0100490000000100055749445448020002001200064355454E54410200
       49000000010005574944544802000200F4010553414C444F0800040000000100
-      07535542545950450200490006004D6F6E6579000000}
+      07535542545950450200490006004D6F6E657900054E4956454C040001000000
+      00000A4D4F56494D49454E544F04000100000000000000}
     object CDSniifCODIGO: TStringField
       FieldName = 'CODIGO'
       Size = 18
@@ -437,24 +605,76 @@ object frmBalanceDirectoColgaapNiif: TfrmBalanceDirectoColgaapNiif
     object CDSniifSALDO: TCurrencyField
       FieldName = 'SALDO'
     end
+    object CDSniifNIVEL: TIntegerField
+      FieldName = 'NIVEL'
+    end
+    object CDSniifMOVIMIENTO: TIntegerField
+      FieldName = 'MOVIMIENTO'
+    end
   end
   object CDSprocesarcolgaap: TClientDataSet
     Active = True
     Aggregates = <>
+    FieldDefs = <
+      item
+        Name = 'CODIGO'
+        DataType = ftString
+        Size = 18
+      end
+      item
+        Name = 'CUENTA'
+        DataType = ftString
+        Size = 500
+      end
+      item
+        Name = 'MOVIMIENTO'
+        DataType = ftInteger
+      end
+      item
+        Name = 'SALDO_ANTERIOR'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'DEBITO_MOV'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'CREDITO_MOV'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'SALDO_ACTUAL'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'NIVEL'
+        DataType = ftInteger
+      end>
+    IndexDefs = <>
     Params = <>
+    StoreDefs = True
     Left = 360
     Top = 144
     Data = {
-      D80000009619E0BD010000001800000005000000000003000000D80006434F44
-      49474F01004900000001000557494454480200020012000E53414C444F5F414E
-      544552494F52080004000000010007535542545950450200490006004D6F6E65
-      79000A44454249544F5F4D4F5608000400000001000753554254595045020049
-      0006004D6F6E6579000B4352454449544F5F4D4F560800040000000100075355
-      42545950450200490006004D6F6E6579000C53414C444F5F41435455414C0800
-      04000000010007535542545950450200490006004D6F6E6579000000}
+      140100009619E0BD010000001800000008000000000003000000140106434F44
+      49474F0100490000000100055749445448020002001200064355454E54410200
+      49000000010005574944544802000200F4010A4D4F56494D49454E544F040001
+      00000000000E53414C444F5F414E544552494F52080004000000010007535542
+      545950450200490006004D6F6E6579000A44454249544F5F4D4F560800040000
+      00010007535542545950450200490006004D6F6E6579000B4352454449544F5F
+      4D4F56080004000000010007535542545950450200490006004D6F6E6579000C
+      53414C444F5F41435455414C0800040000000100075355425459504502004900
+      06004D6F6E657900054E4956454C04000100000000000000}
     object CDSprocesarcolgaapCODIGO: TStringField
       FieldName = 'CODIGO'
       Size = 18
+    end
+    object CDSprocesarcolgaapCUENTA: TStringField
+      FieldName = 'CUENTA'
+      Size = 500
+    end
+    object CDSprocesarcolgaapMOVIMIENTO: TIntegerField
+      FieldName = 'MOVIMIENTO'
     end
     object CDSprocesarcolgaapSALDO_ANTERIOR: TCurrencyField
       FieldName = 'SALDO_ANTERIOR'
@@ -468,12 +688,53 @@ object frmBalanceDirectoColgaapNiif: TfrmBalanceDirectoColgaapNiif
     object CDSprocesarcolgaapSALDO_ACTUAL: TCurrencyField
       FieldName = 'SALDO_ACTUAL'
     end
+    object CDSprocesarcolgaapNIVEL: TIntegerField
+      FieldName = 'NIVEL'
+    end
   end
   object CDSprocesarniif: TClientDataSet
+    Active = True
     Aggregates = <>
+    FieldDefs = <
+      item
+        Name = 'CODIGO'
+        DataType = ftString
+        Size = 18
+      end
+      item
+        Name = 'CUENTA'
+        DataType = ftString
+        Size = 500
+      end
+      item
+        Name = 'NIVEL'
+        DataType = ftInteger
+      end
+      item
+        Name = 'MOVIMIENTO'
+        DataType = ftInteger
+      end
+      item
+        Name = 'CODIGO_MAYOR'
+        DataType = ftString
+        Size = 18
+      end
+      item
+        Name = 'SALDO'
+        DataType = ftCurrency
+      end>
+    IndexDefs = <>
     Params = <>
-    Left = 624
-    Top = 144
+    StoreDefs = True
+    Left = 888
+    Top = 176
+    Data = {
+      B40000009619E0BD010000001800000006000000000003000000B40006434F44
+      49474F0100490000000100055749445448020002001200064355454E54410200
+      49000000010005574944544802000200F401054E4956454C0400010000000000
+      0A4D4F56494D49454E544F04000100000000000C434F4449474F5F4D41594F52
+      01004900000001000557494454480200020012000553414C444F080004000000
+      010007535542545950450200490006004D6F6E6579000000}
     object CDSprocesarniifCODIGO: TStringField
       FieldName = 'CODIGO'
       Size = 18
@@ -484,6 +745,9 @@ object frmBalanceDirectoColgaapNiif: TfrmBalanceDirectoColgaapNiif
     end
     object CDSprocesarniifNIVEL: TIntegerField
       FieldName = 'NIVEL'
+    end
+    object CDSprocesarniifMOVIMIENTO: TIntegerField
+      FieldName = 'MOVIMIENTO'
     end
     object CDSprocesarniifCODIGO_MAYOR: TStringField
       FieldName = 'CODIGO_MAYOR'
@@ -504,5 +768,60 @@ object frmBalanceDirectoColgaapNiif: TfrmBalanceDirectoColgaapNiif
   object IBQuery1: TIBQuery
     Left = 80
     Top = 400
+  end
+  object SD1: TSaveDialog
+    DefaultExt = 'xls'
+    Left = 432
+    Top = 16
+  end
+  object CDSsinparalelo: TClientDataSet
+    Active = True
+    Aggregates = <>
+    FieldDefs = <
+      item
+        Name = 'CODIGO'
+        DataType = ftString
+        Size = 18
+      end
+      item
+        Name = 'CUENTA'
+        DataType = ftString
+        Size = 500
+      end
+      item
+        Name = 'SALDO'
+        DataType = ftCurrency
+      end>
+    IndexDefs = <
+      item
+        Name = 'IndexCODIGO'
+        Fields = 'CODIGO'
+      end>
+    IndexName = 'IndexCODIGO'
+    Params = <>
+    StoreDefs = True
+    Left = 672
+    Top = 144
+    Data = {
+      720000009619E0BD010000001800000003000000000003000000720006434F44
+      49474F0100490000000100055749445448020002001200064355454E54410200
+      49000000010005574944544802000200F4010553414C444F0800040000000100
+      07535542545950450200490006004D6F6E6579000000}
+    object CDSsinparaleloCODIGO: TStringField
+      FieldName = 'CODIGO'
+      Size = 18
+    end
+    object CDSsinparaleloCUENTA: TStringField
+      FieldName = 'CUENTA'
+      Size = 500
+    end
+    object CDSsinparaleloSALDO: TCurrencyField
+      FieldName = 'SALDO'
+    end
+  end
+  object DSsinparalelo: TDataSource
+    DataSet = CDSsinparalelo
+    Left = 640
+    Top = 144
   end
 end
