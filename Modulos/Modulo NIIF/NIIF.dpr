@@ -110,7 +110,8 @@ uses
   UnitLibroBalance in 'units\UnitLibroBalance.pas' {frmLibroBalanceGeneral},
   UnitEquivalencia in 'units\UnitEquivalencia.pas' {frmEquivalencias},
   UnitSincronizarPlanCuentasNIIF in '..\..\Units\UnitSincronizarPlanCuentasNIIF.pas' {frmSincronizarPlanCuentasNIIF},
-  UnitMigraciondeNotasColgaap in 'units\UnitMigraciondeNotasColgaap.pas' {frmMigraciondeNotasColgaap};
+  UnitMigraciondeNotasColgaap in 'units\UnitMigraciondeNotasColgaap.pas' {frmMigraciondeNotasColgaap},
+  UnitBalanceDirectoColgaapNiif in 'units\UnitBalanceDirectoColgaapNiif.pas' {frmBalanceDirectoColgaapNiif};
 
 {$R *.res}
 
@@ -118,5 +119,6 @@ begin
   Application.Initialize;
   Application.Title := 'NIIF';
   Application.CreateForm(TfrmMain, frmMain);
+  Application.CreateForm(TfrmBalanceDirectoColgaapNiif, frmBalanceDirectoColgaapNiif);
   Application.Run;
 end.

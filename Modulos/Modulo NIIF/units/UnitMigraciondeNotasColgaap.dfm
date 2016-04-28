@@ -133,6 +133,7 @@ object frmMigraciondeNotasColgaap: TfrmMigraciondeNotasColgaap
       Height = 25
       Caption = '&Cerrar'
       TabOrder = 0
+      OnClick = CmdCerrarClick
       Glyph.Data = {
         36050000424D3605000000000000360400002800000010000000100000000100
         08000000000000010000220B0000220B00000001000000010000006400004242

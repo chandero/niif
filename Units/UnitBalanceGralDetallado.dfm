@@ -1,6 +1,6 @@
 object frmBalanceGralDetallado: TfrmBalanceGralDetallado
-  Left = 253
-  Top = 203
+  Left = 716
+  Top = 199
   Width = 354
   Height = 188
   Caption = 'Balance General Detallado'
@@ -419,7 +419,7 @@ object frmBalanceGralDetallado: TfrmBalanceGralDetallado
     Left = 303
     Top = 1
     SystemInfo = (
-      'OS: WIN32_NT 5.1.2600 Service Pack 2'
+      'OS: WIN32_NT 5.1.2600 Service Pack 3'
       ''
       'PageSize: 4096'
       'ActiveProcessorMask: $1000'
@@ -1826,7 +1826,7 @@ object frmBalanceGralDetallado: TfrmBalanceGralDetallado
     Left = 275
     Top = 3
     SystemInfo = (
-      'OS: WIN32_NT 5.1.2600 Service Pack 2'
+      'OS: WIN32_NT 5.1.2600 Service Pack 3'
       ''
       'PageSize: 4096'
       'ActiveProcessorMask: $1000'

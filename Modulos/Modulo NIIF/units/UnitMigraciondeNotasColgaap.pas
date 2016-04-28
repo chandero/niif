@@ -31,6 +31,7 @@ type
     procedure btnProcesarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure CmdCerrarClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -197,6 +198,12 @@ begin
         edFechaDesde.Date := FechaHoy;
         TryEncodeDate(YearOf(FechaHoy), MonthOf(FechaHoy), DaysInAMonth(YearOf(FechaHoy), MonthOf(FechaHoy)), FechaHoy);
         edFechaHasta.Date := FechaHoy;
+end;
+
+procedure TfrmMigraciondeNotasColgaap.CmdCerrarClick(Sender: TObject);
+begin
+        dmGeneral.Free;
+        Close;
 end;
 
 end.

@@ -117,6 +117,7 @@ type
     N15: TMenuItem;
     N18: TMenuItem;
     MigracindeNotasColgaap1: TMenuItem;
+    GenerarBalanceNIIFDirecto1: TMenuItem;
     procedure Configurar_ImpresoraExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -192,6 +193,7 @@ type
     procedure MantenimientoEquivalenciasNIIF1Click(Sender: TObject);
     procedure SincronizacindeCuentas1Click(Sender: TObject);
     procedure MigracindeNotasColgaap1Click(Sender: TObject);
+    procedure GenerarBalanceNIIFDirecto1Click(Sender: TObject);
   private
     { Private declarations }
     SalirMal:Boolean;
@@ -229,7 +231,7 @@ uses unitLogin, IniFiles,
      UnitNotas, UnitProcesoCierreAno, UnitCierreAnual,
      UnitCreaciondePersona, UnitPlanillaConsolidada, UnitBalanceporOficinas,
      UnitBalanceConsolidadoTxt, UnitExportarSaldos, UnitCambios, UnitExtractoCredito,
-     UnitInformeEstadoIngresosGastos, UnitSincronizarPlanCuentasNIIF, unitMigraciondeNotasColgaap;
+     UnitInformeEstadoIngresosGastos, UnitSincronizarPlanCuentasNIIF, unitMigraciondeNotasColgaap, UnitBalanceDirectoColgaapNiif;
 
 procedure TfrmMain.Configurar_ImpresoraExecute(Sender: TObject);
 begin
@@ -967,6 +969,14 @@ var
 begin
       frmMigraciondeNotasColgaap := TfrmMigraciondeNotasColgaap.Create(self);
       frmMigraciondeNotasColgaap.ShowModal;
+end;
+
+procedure TfrmMain.GenerarBalanceNIIFDirecto1Click(Sender: TObject);
+var
+    frmBalanceDirectoColgaapNiif: TfrmBalanceDirectoColgaapNiif;
+begin
+      frmBalanceDirectoColgaapNiif := TfrmBalanceDirectoColgaapNiif.Create(self);
+      frmBalanceDirectoColgaapNiif.ShowModal;
 end;
 
 end.

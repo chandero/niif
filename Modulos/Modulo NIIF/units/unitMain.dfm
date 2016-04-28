@@ -277,6 +277,10 @@ object frmMain: TfrmMain
           OnClick = BarridodeAhorrosparaAportes1Click
         end
       end
+      object GenerarBalanceNIIFDirecto1: TMenuItem
+        Caption = 'Generar Balance NIIF Directo'
+        OnClick = GenerarBalanceNIIFDirecto1Click
+      end
     end
     object Informes1: TMenuItem
       Caption = 'Informes'
