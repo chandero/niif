@@ -117,7 +117,7 @@ begin
         IBQOperacion.SQL.Add('WHERE ID_AGENCIA = :ID_AGENCIA and COLGAAP = :COLGAAP and NIIF = :NIIF');
         IBQOperacion.ParamByName('ID_AGENCIA').AsInteger := IBQColgaap.FieldByName('ID_AGENCIA').AsInteger;
         IBQOperacion.ParamByName('COLGAAP').AsString := IBQColgaap.FieldByName('CODIGO').AsString;
-        IBQOperacion.ParamByName('NIIF').AsString := IBQNIIF.FieldByName('NIIF').AsString;
+        IBQOperacion.ParamByName('NIIF').AsString := IBQParalelo.FieldByName('NIIF').AsString;
         try
          try
            IBQOperacion.ExecSQL;

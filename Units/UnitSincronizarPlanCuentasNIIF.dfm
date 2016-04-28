@@ -1,6 +1,6 @@
 object frmSincronizarPlanCuentasNIIF: TfrmSincronizarPlanCuentasNIIF
-  Left = 484
-  Top = 188
+  Left = 471
+  Top = 218
   Width = 484
   Height = 163
   Caption = 'Sincronizar Plan de Cuentas NIIF'
