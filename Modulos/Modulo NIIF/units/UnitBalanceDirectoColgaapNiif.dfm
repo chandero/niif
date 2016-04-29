@@ -1,6 +1,6 @@
 object frmBalanceDirectoColgaapNiif: TfrmBalanceDirectoColgaapNiif
   Left = 148
-  Top = 136
+  Top = 156
   Width = 1367
   Height = 538
   Caption = 'Balance Directo COLGAAP -> NIIF'

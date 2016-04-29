@@ -5,7 +5,8 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Buttons, StdCtrls, Mask, Grids, DBGrids, DB, IBCustomDataSet,
-  IBQuery, UnitDmGeneral, ExtCtrls, DBCtrls, JvEdit, JvFloatEdit;
+  IBQuery, UnitDmGeneral, ExtCtrls, DBCtrls, JvEdit, JvFloatEdit, DBClient,
+  IBDatabase, DataSetToExcel;
 
 type
   TfrmEquivalencias = class(TForm)
@@ -30,10 +31,18 @@ type
     IBQparaleloNOMBRE: TIBStringField;
     IBQparaleloPORCENTAJE: TIBBCDField;
     Panel3: TPanel;
-    Btnreporte: TBitBtn;
     Btncerrar: TBitBtn;
     IBQOperacion: TIBQuery;
     IBQniif: TIBQuery;
+    btnAExcel: TBitBtn;
+    CDSparalelo: TClientDataSet;
+    CDSparaleloCOLGAAP: TStringField;
+    CDSparaleloCUENTA_COLGAAP: TStringField;
+    CDSparaleloNIIF: TStringField;
+    CDSparaleloCUENTA_NIIF: TStringField;
+    CDSparaleloPORCENTAJE: TIntegerField;
+    SD1: TSaveDialog;
+    Transa: TIBTransaction;
     procedure FormCreate(Sender: TObject);
     procedure BtncerrarClick(Sender: TObject);
     procedure IBQColgaapAfterScroll(DataSet: TDataSet);
@@ -43,6 +52,8 @@ type
     procedure FormShow(Sender: TObject);
     procedure edCodigoExit(Sender: TObject);
     procedure CmdBuscarClick(Sender: TObject);
+    procedure IBQparaleloAfterScroll(DataSet: TDataSet);
+    procedure btnAExcelClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -134,6 +145,10 @@ begin
         finally
            IBQOperacion.Transaction.CommitRetaining;
         end;
+        IBQparalelo.Close;
+        IBQparalelo.ParamByName('ID_AGENCIA').AsInteger := IBQColgaap.FieldByName('ID_AGENCIA').AsInteger;
+        IBQparalelo.ParamByName('COLGAAP').AsString := IBQColgaap.FieldByName('CODIGO').AsString;
+        IBQparalelo.Open;        
 end;
 
 
@@ -178,6 +193,61 @@ begin
         begin
             frmPUC.btnSeleccionar.Enabled := false;
             edcodigo.Text := frmPUC.CodigoSeleccionado;
+        end;
+
+end;
+
+procedure TfrmEquivalencias.IBQparaleloAfterScroll(DataSet: TDataSet);
+begin
+        EdCodigo.Text := IBQparalelo.FieldByName('NIIF').AsString;
+        edPorcentaje.Value := IBQparalelo.FieldByName('PORCENTAJE').AsInteger;
+        edNombre.Text := IBQParalelo.FieldByName('NOMBRE').AsString;
+end;
+
+procedure TfrmEquivalencias.btnAExcelClick(Sender: TObject);
+var
+  CodigoAnt: String;
+  ExcelFile: TDataSetToExcel;
+begin
+        Transa.DefaultDatabase := dmGeneral.IBDatabase1;
+        IBQOperacion.Transaction := Transa;
+        Transa.StartTransaction;
+        IBQOperacion.Close;
+        IBQOperacion.SQL.Clear;
+        IBQOperacion.SQL.Add('SELECT p.COLGAAP, c.NOMBRE as NOMBRE_COLGAAP, p.NIIF, n.NOMBRE as NOMBRE_NIIF, p.PORCENTAJE');
+        IBQOperacion.SQL.Add('FROM "con$puc" c');
+        IBQOperacion.SQL.Add('INNER JOIN CON$PARALELO p ON c.CODIGO = p.COLGAAP');
+        IBQOperacion.SQL.Add('INNER JOIN CON$PUC n ON p.NIIF = n.CODIGO');
+        IBQOperacion.SQL.Add('ORDER BY c.CODIGO DESC');
+        IBQOperacion.Open;
+
+        while not IBQOperacion.Eof do
+        begin
+              if IBQOperacion.FieldByName('COLGAAP').AsString <> CodigoAnt then
+              begin
+                  CDSparalelo.Insert;
+                  CDSparaleloCOLGAAP.Value := '--------------------';
+                  CDSparaleloCUENTA_COLGAAP.Value := '--------------------';
+                  CDSparalelo.Post;
+                  CodigoAnt := IBQOperacion.FieldByName('COLGAAP').AsString;
+              end;
+              CDSparalelo.Insert;
+              CDSparaleloCOLGAAP.Value := IBQOperacion.FieldByName('COLGAAP').AsString;
+              CDSparaleloCUENTA_COLGAAP.Value := IBQOperacion.FieldByName('NOMBRE_COLGAAP').AsString;
+              CDSparaleloNIIF.Value := IBQOperacion.FieldByName('NIIF').AsString;
+              CDSparaleloCUENTA_NIIF.Value := IBQOperacion.FieldByName('NOMBRE_NIIF').AsString;
+              CDSparaleloPORCENTAJE.Value := IBQOperacion.FieldByName('PORCENTAJE').AsInteger;
+              CDSparalelo.Post;
+
+              IBQOperacion.Next;
+        end;
+
+        if SD1.Execute then
+        begin
+           CDSparalelo.First;
+           ExcelFile := TDataSetToExcel.Create(CDSparalelo,SD1.FileName);
+           ExcelFile.WriteFile;
+           ExcelFile.Free;
         end;
 
 end;
