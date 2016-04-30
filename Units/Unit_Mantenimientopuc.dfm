@@ -1,8 +1,8 @@
 object frmMantenimientopuc: TfrmMantenimientopuc
-  Left = 136
-  Top = 50
+  Left = 297
+  Top = 46
   Width = 692
-  Height = 566
+  Height = 583
   Caption = 'Plan Unico de Cuentas'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -22,20 +22,20 @@ object frmMantenimientopuc: TfrmMantenimientopuc
     Left = 1
     Top = 0
     Width = 659
-    Height = 513
+    Height = 545
     TabOrder = 0
     object Splitter1: TSplitter
       Left = 218
       Top = 1
       Width = 1
-      Height = 511
+      Height = 543
       Cursor = crHSplit
     end
     object Treepuc: TTreeView
       Left = 1
       Top = 1
       Width = 217
-      Height = 511
+      Height = 543
       Align = alLeft
       Images = ImageList1
       Indent = 19
@@ -50,12 +50,12 @@ object frmMantenimientopuc: TfrmMantenimientopuc
       Left = 219
       Top = 1
       Width = 439
-      Height = 511
+      Height = 543
       Align = alClient
       TabOrder = 1
       object StringGrid: TXStringGrid
         Left = 7
-        Top = 285
+        Top = 316
         Width = 425
         Height = 221
         ColCount = 4
@@ -134,7 +134,7 @@ object frmMantenimientopuc: TfrmMantenimientopuc
         Left = 5
         Top = 0
         Width = 333
-        Height = 281
+        Height = 313
         TabOrder = 0
         object Label7: TLabel
           Left = 11
@@ -473,7 +473,7 @@ object frmMantenimientopuc: TfrmMantenimientopuc
         Left = 341
         Top = 0
         Width = 98
-        Height = 281
+        Height = 313
         BorderWidth = 12
         Color = clOlive
         TabOrder = 2
@@ -879,6 +879,15 @@ object frmMantenimientopuc: TfrmMantenimientopuc
           Caption = 'Validar Mayor'
           TabOrder = 8
           OnClick = btnValidarMayorClick
+        end
+        object btnValidarEsMovimiento: TBitBtn
+          Left = 8
+          Top = 280
+          Width = 81
+          Height = 25
+          Caption = 'EsMovimiento'
+          TabOrder = 9
+          OnClick = btnValidarEsMovimientoClick
         end
       end
     end

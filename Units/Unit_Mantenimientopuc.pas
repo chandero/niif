@@ -95,6 +95,7 @@ interface
     EditSaldoInicial: TJvCurrencyEdit;
     EditSaldoActual: TJvCurrencyEdit;
     btnValidarMayor: TBitBtn;
+    btnValidarEsMovimiento: TBitBtn;
     procedure FormCreate(Sender: TObject);
     procedure TreepucCollapsed(Sender: TObject; Node: TTreeNode);
     procedure TreepucExpanded(Sender: TObject; Node: TTreeNode);
@@ -163,6 +164,7 @@ interface
     procedure BtncerrarClick(Sender: TObject);
     procedure EditsaldoinicialExit(Sender: TObject);
     procedure btnValidarMayorClick(Sender: TObject);
+    procedure btnValidarEsMovimientoClick(Sender: TObject);
     private
     FCodigoSeleccionado:String;
     procedure creararbol;
@@ -264,7 +266,7 @@ implementation
 
 {$R *.dfm}
 
-uses UnitGlobales, Unit_BuscarCodigo, Unit_BuscarClave;
+uses UnitGlobales, Unit_BuscarCodigo, Unit_BuscarClave, UnitPantallaProgreso;
 
 procedure TfrmMantenimientopuc.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
@@ -1503,6 +1505,8 @@ begin
 end;
 
 procedure TfrmMantenimientopuc.btnValidarMayorClick(Sender: TObject);
+var
+  frmProgreso : TfrmProgreso;
 begin
     with DmComprobante.IBQuery1 do
     begin
@@ -1513,10 +1517,20 @@ begin
       SQL.Add('from CON$PUC');
       SQL.Add('Order by CON$PUC.ID_AGENCIA,CON$PUC.CODIGO');
       Open;
+      Last;
+      First;
+      frmProgreso := TfrmProgreso.Create(self);
+      frmProgreso.Min := 0;
+      frmProgreso.Max := RecordCount;
+      frmProgreso.Position := 0;
+      frmProgreso.Show;      
         while not Eof do
          begin
            Codigo := fieldbyname('CODIGO').AsString;
            CodigoMayor := EvaluarCodigoMayor(Codigo);
+           frmProgreso.Info.Caption := Codigo + ' - ' + FieldByName('NOMBRE').AsString;
+           frmProgreso.Position := RecNo;
+           Application.ProcessMessages;           
            if (CodigoMayor <> FieldByName('CODIGOMAYOR').AsString) then
            begin
                // Actualizar Codigo Mayor
@@ -1564,6 +1578,110 @@ begin
          end;
       end;
      Dmcomprobante.IBQuery1.Transaction.Commit;
+     frmProgreso.Hide;     
+     ShowMessage('Proceso Finalizado con Exito!');
+end;
+
+procedure TfrmMantenimientopuc.btnValidarEsMovimientoClick(
+  Sender: TObject);
+var
+  Nivel: Integer;
+  CodigoInicial: String;
+  CodigoFinal : String;
+  Codigo: String;
+  Cadena: String;
+  frmProgreso : TfrmProgreso;
+begin
+    with DmComprobante.IBQuery1 do
+    begin
+      if Transaction.InTransaction then Transaction.Commit;
+      Transaction.StartTransaction;
+      Close;
+      SQL.Clear;
+      SQL.Add('select ');
+      SQL.Add('*');
+      SQL.Add('from CON$PUC');
+      SQL.Add('Order by CON$PUC.ID_AGENCIA,CON$PUC.CODIGO');
+      Open;
+      Last;
+      First;
+      frmProgreso := TfrmProgreso.Create(self);
+      frmProgreso.Min := 0;
+      frmProgreso.Max := RecordCount;
+      frmProgreso.Position := 0;
+      frmProgreso.Show;
+        while not Eof do
+         begin
+           Nivel := FieldByName('NIVEL').AsInteger;
+           Codigo := FieldByName('CODIGO').AsString;
+           frmProgreso.Info.Caption := Codigo + ' - ' + FieldByName('NOMBRE').AsString;
+           frmProgreso.Position := RecNo;
+           Application.ProcessMessages;
+           case Nivel of
+           1:  begin
+                   CodigoInicial := LeftStr(Codigo,1);
+                   CodigoFinal := LeftStr(Codigo,1)+'99999999999999999';
+               end;
+           2:  begin
+                   CodigoInicial := LeftStr(Codigo,2);
+                   CodigoFinal := LeftStr(Codigo,2)+'9999999999999999';
+               end;
+           3: begin
+                   CodigoInicial := LeftStr(Codigo,4);
+                   CodigoFinal := LeftStr(Codigo,4)+'99999999999999';
+               end;
+           4: begin
+                   CodigoInicial := LeftStr(Codigo,6);
+                   CodigoFinal := LeftStr(Codigo,6)+'999999999999';
+               end;
+           5: begin
+                   CodigoInicial := LeftStr(Codigo,8);
+                   CodigoFinal := LeftStr(Codigo,8)+'9999999999';
+               end;
+           6: begin
+                   CodigoInicial := LeftStr(Codigo,10);
+                   CodigoFinal := LeftStr(Codigo,10)+'99999999';
+               end;
+           7: begin
+                   CodigoInicial := LeftStr(Codigo,12);
+                   CodigoFinal := LeftStr(Codigo,12)+'999999';
+               end;
+           8: begin
+                   CodigoInicial := LeftStr(Codigo,14);
+                   CodigoFinal := LeftStr(Codigo,14)+'9999';
+               end;
+           9: begin
+                   CodigoInicial := LeftStr(Codigo,16);
+                   CodigoFinal := LeftStr(Codigo,4)+'99';
+               end;
+           10: begin
+                   CodigoInicial := Codigo;
+                   CodigoFinal := Codigo;
+               end;
+           end;
+           // Validar si es del último nivel
+               DmComprobante.IBQuery3.Close;
+               DmComprobante.IBQuery3.SQL.Clear;
+               DmComprobante.IBQuery3.SQL.Add('SELECT * FROM CON$PUC WHERE CODIGO BETWEEN :CODIGO1 AND :CODIGO2');
+               DmComprobante.IBQuery3.ParamByName('CODIGO1').AsString := CodigoInicial;
+               DmComprobante.IBQuery3.ParamByName('CODIGO2').AsString := CodigoFinal;
+               DmComprobante.IBQuery3.Open;
+               DmComprobante.IBQuery3.Last;
+
+               if DmComprobante.IBQuery3.RecordCount <= 1 then
+               begin
+                   DmComprobante.IBQuery3.Close;
+                   DmComprobante.IBQuery3.SQL.Clear;
+                   DmComprobante.IBQuery3.SQL.Add('UPDATE CON$PUC SET MOVIMIENTO = 1 WHERE CODIGO = :CODIGO');
+                   DmComprobante.IBQuery3.ParamByName('CODIGO').AsString := Codigo;
+                   DmComprobante.IBQuery3.ExecSQL;
+               end;
+          next;
+         end;
+      end;
+     Dmcomprobante.IBQuery1.Transaction.Commit;
+     frmProgreso.Hide;
+     ShowMessage('Proceso Finalizado con Exito!');
 end;
 
 end.
