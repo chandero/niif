@@ -1506,7 +1506,11 @@ end;
 
 procedure TfrmMantenimientopuc.btnValidarMayorClick(Sender: TObject);
 var
+<<<<<<< HEAD
   frmProgreso : TfrmProgreso;
+=======
+  CodigoMActual: String;
+>>>>>>> origin/master
 begin
     with DmComprobante.IBQuery1 do
     begin
@@ -1528,10 +1532,15 @@ begin
          begin
            Codigo := fieldbyname('CODIGO').AsString;
            CodigoMayor := EvaluarCodigoMayor(Codigo);
+<<<<<<< HEAD
            frmProgreso.Info.Caption := Codigo + ' - ' + FieldByName('NOMBRE').AsString;
            frmProgreso.Position := RecNo;
            Application.ProcessMessages;           
            if (CodigoMayor <> FieldByName('CODIGOMAYOR').AsString) then
+=======
+           CodigoMActual := FieldByName('CODIGOMAYOR').AsString;
+           if (CodigoMayor <> CodigoMActual) then
+>>>>>>> origin/master
            begin
                // Actualizar Codigo Mayor
                DmComprobante.IBQuery3.Close;

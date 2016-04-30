@@ -23,7 +23,7 @@ type
     btnProcesar: TBitBtn;
     btnAExcel: TBitBtn;
     Panel2: TPanel;
-    BitBtn2: TBitBtn;
+    btnAExcelNiif: TBitBtn;
     DBGcolgaap: TDBGrid;
     DBGniif: TDBGrid;
     CDScolgaapCODIGO: TStringField;
@@ -47,11 +47,34 @@ type
     CDSprocesarniifNIVEL: TIntegerField;
     CDSprocesarniifCODIGO_MAYOR: TStringField;
     CDSprocesarniifSALDO: TCurrencyField;
+    CDScolgaapMOVIMIENTO: TIntegerField;
+    CDSprocesarcolgaapMOVIMIENTO: TIntegerField;
+    CDSprocesarcolgaapCUENTA: TStringField;
+    SD1: TSaveDialog;
+    GroupBox4: TGroupBox;
+    DBGsinparalelo: TDBGrid;
+    CDSsinparalelo: TClientDataSet;
+    DSsinparalelo: TDataSource;
+    CDSsinparaleloCODIGO: TStringField;
+    CDSsinparaleloCUENTA: TStringField;
+    CDSsinparaleloSALDO: TCurrencyField;
+    Panel3: TPanel;
+    btnAExcelsinParalelo: TBitBtn;
+    CDSniifNIVEL: TIntegerField;
+    CDSniifMOVIMIENTO: TIntegerField;
+    CDSprocesarcolgaapNIVEL: TIntegerField;
+    CDScolgaapNIVEL: TIntegerField;
+    CDSprocesarniifMOVIMIENTO: TIntegerField;
     procedure btnCerrarClick(Sender: TObject);
     procedure btnProcesarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure btnAExcelClick(Sender: TObject);
+    procedure btnAExcelNiifClick(Sender: TObject);
+    procedure btnAExcelsinParaleloClick(Sender: TObject);
+    procedure DBGniifTitleClick(Column: TColumn);
   private
     { Private declarations }
+    procedure ActualizarCodigoMayor(Codigo: String; Saldo:Currency);
   public
     { Public declarations }
   end;
@@ -64,7 +87,7 @@ implementation
 
 {$R *.dfm}
 
-uses UnitGlobales, UnitPantallaProgreso;
+uses UnitGlobales, UnitPantallaProgreso, DataSetToExcel;
 
 procedure TfrmBalanceDirectoColgaapNiif.btnCerrarClick(Sender: TObject);
 begin
@@ -76,7 +99,7 @@ procedure TfrmBalanceDirectoColgaapNiif.btnProcesarClick(Sender: TObject);
 var
 SaldoAnterior:Currency;
 SumDebito,SumCredito:Currency;
-Debito, Credito: Currency;
+Debito, Credito, Valor: Currency;
 frmProgreso:TfrmProgreso;
 Total:Integer;
 Mes: Integer;
@@ -100,7 +123,7 @@ begin
           SQL.Add('select ');
           SQL.Add('"con$saldoscuenta".DEBITO,');
           SQL.Add('"con$saldoscuenta".CREDITO');
-          SQL.Add(' from "con$puc" ');
+          SQL.Add('from "con$puc" ');
           SQL.Add('LEFT JOIN "con$saldoscuenta" ON ("con$puc".CODIGO = "con$saldoscuenta".CODIGO and "con$puc".ID_AGENCIA = "con$saldoscuenta".ID_AGENCIA)');
           SQL.Add('where ');
           SQL.Add('("con$saldoscuenta".ID_AGENCIA = :ID_AGENCIA) and ("con$saldoscuenta".CODIGO = :"CODIGO") and ');
@@ -130,6 +153,8 @@ begin
           SQL.Add('"con$puc".NOMBRE,');
           SQL.Add('"con$puc".NIVEL,');
           SQL.Add('"con$puc".SALDOINICIAL,');
+          SQL.Add('"con$puc".MOVIMIENTO,');
+          SQL.Add('"con$puc".CODIGOMAYOR,');
           SQL.Add('"gen$agencia".DESCRIPCION_AGENCIA');
           SQL.Add(' from "con$puc" ');
           SQL.Add('LEFT JOIN "gen$agencia" ON ("con$puc".ID_AGENCIA = "gen$agencia".ID_AGENCIA)');
@@ -143,6 +168,7 @@ begin
 
           IBQPuc.Last;
           IBQPuc.First;
+          frmProgreso.Show;
 
        while not IBQPuc.Eof do begin
                  frmProgreso.Position := IBQPuc.RecNo;
@@ -195,20 +221,151 @@ begin
                  Credito := IBQsaldoact.FieldByName('CREDITO').AsCurrency;
                  CDSprocesarcolgaap.Insert;
                  CDSprocesarcolgaapCODIGO.Value := IBQPuc.FieldByName('CODIGO').AsString;
+                 CDSprocesarcolgaapCUENTA.Value := IBQPuc.FieldByName('NOMBRE').AsString;
                  CDSprocesarcolgaapSALDO_ANTERIOR.Value := SaldoAnterior;
                  CDSprocesarcolgaapDEBITO_MOV.Value := Debito;
                  CDSprocesarcolgaapCREDITO_MOV.Value := Credito;
-                 CDSprocesarcolgaapSALDO_ACTUAL.Value := SaldoAnterior +  Debito + Credito;
+                 CDSprocesarcolgaapSALDO_ACTUAL.Value := SaldoAnterior +  Debito - Credito;
+                 CDSprocesarcolgaapMOVIMIENTO.Value := IBQpuc.FieldByName('MOVIMIENTO').AsInteger;
+                 CDSprocesarcolgaapNIVEL.Value := IBQpuc.FieldByName('NIVEL').AsInteger;
                  CDSprocesarcolgaap.Post;
-
-                 CDScolgaap.Insert;
-                 CDScolgaapCODIGO.Value := IBQPuc.FieldByName('CODIGO').AsString;
-                 CDScolgaapCUENTA.Value := IBQpuc.FieldByName('NOMBRE').AsString;
-                 CDScolgaapSALDO.Value := SaldoAnterior +  Debito + Credito;
-                 CDScolgaap.Post;
-
                  IBQpuc.Next;
        end;
+       frmProgreso.Hide;
+       
+       CDSprocesarcolgaap.First;
+       while not CDSprocesarcolgaap.Eof do
+       begin
+                 CDScolgaap.Insert;
+                 CDScolgaapCODIGO.Value := CDSprocesarcolgaapCODIGO.Value;
+                 CDScolgaapCUENTA.Value := CDSprocesarcolgaapCUENTA.Value;
+                 CDScolgaapSALDO.Value := CDSprocesarcolgaapSALDO_ACTUAL.Value;
+                 CDScolgaapMOVIMIENTO.Value := CDSprocesarcolgaapMOVIMIENTO.Value;
+                 CDScolgaap.Post;
+
+                 CDSprocesarcolgaap.Next;
+       end;
+
+// Construir Datos Niif
+
+       IBQpuc.Close;
+       IBQpuc.SQL.Clear;
+       IBQpuc.SQL.Add('SELECT * FROM CON$PUC ORDER BY CODIGO');
+       IBQpuc.Open;
+       CDSprocesarniif.Open;
+       CDSprocesarniif.EmptyDataSet;
+       while not IBQpuc.Eof do
+       begin
+           CDSprocesarniif.Insert;
+           CDSprocesarniifCODIGO.Value := IBQpuc.FieldByName('CODIGO').AsString;
+           CDSprocesarniifCUENTA.Value := IBQpuc.FieldByName('NOMBRE').AsString;
+           CDSprocesarniifNIVEL.Value := IBQpuc.FieldByName('NIVEL').AsInteger;
+           CDSprocesarniifCODIGO_MAYOR.Value := IBQpuc.FieldByName('CODIGOMAYOR').AsString;
+           CDSprocesarniifSALDO.Value := 0;
+           CDSprocesarniifMOVIMIENTO.Value := IBQpuc.FieldByName('MOVIMIENTO').AsInteger;
+           CDSprocesarniif.Post;
+           IBQpuc.Next;
+       end;
+
+       // Procesar cuentas de movimiento
+       CDScolgaap.Filter := 'MOVIMIENTO = 1';
+       CDScolgaap.Filtered := True;
+       CDScolgaap.First;
+
+
+       CDSsinparalelo.Open;
+       CDSsinparalelo.EmptyDataSet;
+
+       IBQuery1.Close;
+       IBQuery1.SQL.Clear;
+       IBQuery1.SQL.Add('SELECT * FROM CON$PARALELO WHERE COLGAAP = :COLGAAP');
+
+       frmProgreso.Min := 0;
+       frmProgreso.Max := CDScolgaap.RecordCount;
+       frmProgreso.Position := 0;
+       frmProgreso.Show;
+
+       while not CDScolgaap.Eof do
+       begin
+           frmProgreso.Position := CDScolgaap.RecNo;
+           Application.ProcessMessages;
+           IBQuery1.Close;
+           IBQuery1.ParamByName('COLGAAP').AsString := CDScolgaapCODIGO.Value;
+           IBQuery1.Open;
+           if (IBQuery1.RecordCount > 0) then
+           begin
+             while not IBQuery1.Eof do
+             begin
+                  CDSprocesarniif.Filtered := False;
+                  CDSprocesarniif.Filter := 'CODIGO = '+ QuotedStr(IBQuery1.FieldByName('NIIF').AsString);
+                  CDSprocesarniif.Filtered := True;
+                  if (CDSprocesarniif.RecordCount > 0) then
+                  begin
+                          Valor := CDScolgaapSALDO.Value * IBQuery1.FieldByName('PORCENTAJE').AsInteger / 100;
+                          CDSprocesarniif.Edit;
+                          CDSprocesarniifSALDO.Value := CDSprocesarniifSALDO.Value + Valor;
+                          CDSprocesarniif.Post;
+                          ActualizarCodigoMayor(CDSprocesarniifCODIGO_MAYOR.Value, Valor);
+                  end
+                  else
+                  begin
+                      CDSsinparalelo.Insert;
+                      CDSsinparaleloCODIGO.Value :=  CDScolgaapCODIGO.Value;
+                      CDSsinparaleloCUENTA.Value := CDScolgaapCUENTA.Value;
+                      CDSsinparaleloSALDO.Value := CDScolgaapSALDO.Value;
+                      CDSsinparalelo.Post;
+                  end;
+                  IBQuery1.Next;
+             end;
+           end
+           else
+           begin
+                      CDSsinparalelo.Insert;
+                      CDSsinparaleloCODIGO.Value :=  CDScolgaapCODIGO.Value;
+                      CDSsinparaleloCUENTA.Value := CDScolgaapCUENTA.Value;
+                      CDSsinparaleloSALDO.Value := CDScolgaapSALDO.Value;
+                      CDSsinparalelo.Post;
+           end;
+           CDScolgaap.Next;
+       end;
+       frmProgreso.Hide;
+       // Actualizar Balance Niif
+       CDSprocesarniif.Filtered := False;
+       CDSprocesarniif.First;
+       while not CDSprocesarniif.Eof do
+       begin
+           CDSniif.Insert;
+           CDSniifCODIGO.Value := CDSprocesarniifCODIGO.Value;
+           CDSniifCUENTA.Value := CDSprocesarniifCUENTA.Value;
+           CDSniifSALDO.Value := CDSprocesarniifSALDO.Value;
+           CDSniifMOVIMIENTO.Value := CDSprocesarniifMOVIMIENTO.Value;
+           CDSniifNIVEL.Value := CDSprocesarniifNIVEL.Value;
+           CDSniif.Post;
+           CDSprocesarniif.Next;
+       end;
+       CDScolgaap.Filtered := False;
+       CDSniif.First;
+
+end;
+
+procedure TfrmBalanceDirectoColgaapNiif.ActualizarCodigoMayor(Codigo: String; Saldo:Currency);
+var
+  CodigoMayor : String;
+  Nivel : Integer;
+begin
+                  CDSprocesarniif.Filtered := False;
+                  CDSprocesarniif.Filter := 'CODIGO = '+ QuotedStr(Codigo);
+                  CDSprocesarniif.Filtered := True;
+
+                  if CDSprocesarniif.RecordCount > 0 then
+                  begin
+                          CDSprocesarniif.Edit;
+                          CDSprocesarniifSALDO.Value := CDSprocesarniifSALDO.Value + Saldo;
+                          CDSprocesarniif.Post;
+                          if (CDSprocesarniifNIVEL.Value > 1) then
+                                  ActualizarCodigoMayor(CDSprocesarniifCODIGO_MAYOR.Value, Saldo);
+                  end;
+
 end;
 
 procedure TfrmBalanceDirectoColgaapNiif.FormCreate(Sender: TObject);
@@ -223,6 +380,51 @@ begin
         IBQsaldoact.Transaction := dmGeneral.IBTransaction1;
         IBQpuc.Transaction := dmGeneral.IBTransaction1;
         IBQuery1.Transaction := dmGeneral.IBTransaction1;
+end;
+
+procedure TfrmBalanceDirectoColgaapNiif.btnAExcelClick(Sender: TObject);
+var
+   ExcelFile : TDataSetToExcel;
+begin
+          if (SD1.Execute) then
+          begin
+           CDScolgaap.First;
+           ExcelFile := TDataSetToExcel.Create(CDScolgaap,SD1.FileName);
+           ExcelFile.WriteFile;
+           ExcelFile.Free;
+          end;
+end;
+
+procedure TfrmBalanceDirectoColgaapNiif.btnAExcelNiifClick(Sender: TObject);
+var
+   ExcelFile : TDataSetToExcel;
+begin
+          if (SD1.Execute) then
+          begin
+           CDSniif.First;
+           ExcelFile := TDataSetToExcel.Create(CDSniif,SD1.FileName);
+           ExcelFile.WriteFile;
+           ExcelFile.Free;
+          end;
+end;
+
+procedure TfrmBalanceDirectoColgaapNiif.btnAExcelsinParaleloClick(
+  Sender: TObject);
+var
+   ExcelFile : TDataSetToExcel;
+begin
+          if (SD1.Execute) then
+          begin
+           CDSsinparalelo.First;
+           ExcelFile := TDataSetToExcel.Create(CDSsinparalelo,SD1.FileName);
+           ExcelFile.WriteFile;
+           ExcelFile.Free;
+          end;
+end;
+
+procedure TfrmBalanceDirectoColgaapNiif.DBGniifTitleClick(Column: TColumn);
+begin
+        if Column.Index = 0 then CDSniif.IndexName := 'IndexCodigo';
 end;
 
 end.
