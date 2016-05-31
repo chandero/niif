@@ -169,6 +169,9 @@ begin
           IBQPuc.Last;
           IBQPuc.First;
           frmProgreso.Show;
+          frmProgreso.Min := 0;
+          frmProgreso.Max := IBQpuc.RecordCount;
+          frmProgreso.Position := 0;
 
        while not IBQPuc.Eof do begin
                  frmProgreso.Position := IBQPuc.RecNo;
